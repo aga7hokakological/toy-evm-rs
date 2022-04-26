@@ -1,22 +1,23 @@
-const STACK_SIZE: i32 = 1024;
+const STACK_SIZE: u32 = 1024;
 
-struct EVMStack<T> {
-    max_depth: usize,
+#[derive(Debug)]
+pub struct EVMStack<T> {
+    max_depth: u32,
     items: Vec<T>,
     top: usize,
 }
 
 impl<T> EVMStack<T> {
-    pub fn new(max_depth: usize) -> EVMStack<T> {
+    pub fn new() -> EVMStack<T> {
         EVMStack {
-            max_depth: max_depth,
-            items: Vec::with_capacity(max_depth),
+            max_depth: STACK_SIZE,
+            items: Vec::with_capacity(STACK_SIZE.try_into().unwrap()),
             top: 0,
         }
     }
 
     pub fn push(&mut self, item: T) {
-        if self.top == self.max_depth {
+        if self.top == self.max_depth.try_into().unwrap() {
             panic!("max depth exceeded")
         }
 

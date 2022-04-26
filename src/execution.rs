@@ -1,27 +1,38 @@
-use bytes::{BytesMut, BufMut};
+use bytes::{Bytes, BytesMut};
+pub mod instruction;
 
-pub mod evmstack;
-pub mod memory;
+use crate::evmstack::EVMStack;
+use crate::memory::EVMMemory;
+use crate::instruction::Instruction;
 
 
-struct Execution {
-    code: BytesMut
+pub struct Execution<T> {
+    code: Bytes,
     stack: EVMStack<T>,
-    memory: EVMMemory<T>,
+    memory: EVMMemory,
     pc: u8,
     stopped: bool,
 }
 
-impl Execution {
-    pub fn new(code: BytesMut) -> Execution {
-
+impl<T> Execution<T> {
+    pub fn new(code: Bytes) -> Self {
+        Self {
+            code: code,
+            stack: EVMStack::new(),
+            memory: EVMMemory::new(256),
+            pc: 0,
+            stopped: false,
+        }
     }
 
-    pub fn stop(&self) {
+    pub fn stop(&mut self) {
         self.stopped = true;
     }
 
-    pub fn read_code(&self, num_bytes: BytesMut) -> u64 {
-        
+    pub fn read_code(&mut self, num_bytes: u8) -> u8 {
+        let value = self.code[self.pc as usize + num_bytes as usize];
+        self.pc += num_bytes;
+
+        return value
     }
 }
