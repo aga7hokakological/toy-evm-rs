@@ -2,9 +2,9 @@ const STACK_SIZE: u32 = 1024;
 
 #[derive(Debug)]
 pub struct EVMStack<T> {
-    max_depth: u32,
-    items: Vec<T>,
-    top: usize,
+    pub max_depth: u32,
+    pub items: Vec<T>,
+    pub top: usize,
 }
 
 impl<T> EVMStack<T> {

@@ -1,17 +1,17 @@
 use bytes::{Bytes, BytesMut};
-pub mod instruction;
+// pub mod execution;
 
 use crate::evmstack::EVMStack;
 use crate::memory::EVMMemory;
-use crate::instruction::Instruction;
+use crate::execution::instruction::Instruction;
 
 
 pub struct Execution<T> {
-    code: Bytes,
-    stack: EVMStack<T>,
-    memory: EVMMemory,
-    pc: u8,
-    stopped: bool,
+    pub code: Bytes,
+    pub stack: EVMStack<T>,
+    pub memory: EVMMemory,
+    pub pc: u8,
+    pub stopped: bool,
 }
 
 impl<T> Execution<T> {
@@ -24,6 +24,11 @@ impl<T> Execution<T> {
             stopped: false,
         }
     }
+
+    // pub fn set_return_data(&self, offset: usize, len: usize) {
+    //     self.stopped = true;
+    //     self.return_data = self.memory.load_range(offset, len);
+    // }
 
     pub fn stop(&mut self) {
         self.stopped = true;
